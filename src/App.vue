@@ -3,19 +3,19 @@
   <div class="wrapper">
     <div class="input">
       <label for="n">Текст для шифрования</label>
-      <input v-model="inputText" type="text" placeholder="введите текс" class="input-text">
-      <input v-model="outputCipher" type="text" readonly class="output-code">
-      <button @click="cezarCipher" class="cipher">Зашифровать</button>
+      <input v-model="text_in" type="text" placeholder="введите текс" class="input-text">
+      <input v-model="code_out" type="text" readonly class="output-code">
+      <button @click="ceaserCode" class="code">Зашифровать</button>
     </div>
     <div class="input">
-      <label for="n">Шифр для разшифрования</label>
-      <input v-model="inputCipher" type="text" placeholder="вывод" class="input-cipher">
-      <input v-model="outputText" type="text" readonly class="output-text">
-      <button @click="cezarUnCipher" class="unCipher">Разшифровать</button>
+      <label for="n">Сдвиг</label>
+      <input id="counter" v-model="step" type="number">
     </div>
     <div class="input">
-      <label for="n">Шаг смещения</label>
-      <input id="counter" v-model="inputN" type="number">
+      <label for="n">Шифр для раcшифрования</label>
+      <input v-model="code_in" type="text" placeholder="введите шифр" class="input-code">
+      <input v-model="text_out" type="text" readonly class="output-text">
+      <button @click="ceaserDeCode" class="deCode">Расшифровать</button>
     </div>
   </div>
 
@@ -27,17 +27,17 @@ import {low_ru, upper_ru, symbols, capitalLetter} from "@/letters";
 export default {
   data() {
     return {
-      inputText: '',
-      inputCipher: '',
-      inputN: 1,
-      outputCipher: '',
-      outputText: ''
+      text_in: '',
+      code_in: '',
+      step: 1,
+      code_out: '',
+      text_out: ''
     }
   },
   methods: {
-    cezarCipher() {
-      const arr = this.inputText
-      const n = this.inputN
+    ceaserCode() {
+      const arr = this.text_in
+      const n = this.step
       const arrayLength = low_ru.length - 1
       let new_arr = ''
       for (let i in arr) {
@@ -69,29 +69,29 @@ export default {
 
       }
 
-      this.outputCipher = new_arr
+      this.code_out = new_arr
     },
-    cezarUnCipher(){
-      const arr = this.inputCipher
-      const n = this.inputN
+    ceaserDeCode(){
+      const arr = this.code_in
+      const shift = this.step
       const arrayLength = low_ru.length
       let new_arr = ''
       for (let i in arr) {
         const value = arr[i]
 
-        //если элемент относится к заглавным то ищем среди заглавных..
+        //заглавные буквы
         const indexArr = capitalLetter(value) ?
             upper_ru.indexOf(value) :
             low_ru.indexOf(value)
 
-        //если элемент относится к символам
+        //символы
         if (symbols.includes(value))
           new_arr += value
 
-        // если индекс < 0 берем с конца
+        //если вышел за предел
         else if (indexArr >= 0) {
-          if (indexArr - n < 0) {
-            const startIndex = arrayLength - n + indexArr
+          if (indexArr - shift < 0) {
+            const startIndex = arrayLength - shift + indexArr
             console.log(startIndex)
             new_arr += capitalLetter(value) ?
                 upper_ru[startIndex] :
@@ -100,13 +100,13 @@ export default {
           }
           //иначе берем как обычно
           new_arr += capitalLetter(value) ?
-              upper_ru[indexArr - n] :
-              low_ru[indexArr - n]
+              upper_ru[indexArr - shift] :
+              low_ru[indexArr - shift]
         }
 
       }
 
-      this.outputText = new_arr
+      this.text_out = new_arr
     }
   }
 }
@@ -116,6 +116,7 @@ export default {
 *{
   margin: 0;
   padding: 0;
+
 }
 .wrapper {
   margin-top: 20px;
@@ -124,19 +125,21 @@ export default {
   width: 100%;
   height: 100%;
   justify-content: center;
-  font-size: 24px;
-  border: 1px solid burlywood;
+  font-size: 30px;
+  border: 5px solid #151413;
+  background-image: url('../public/fon.jpg');
+  font-family: Bahnschrift;
 }
 
-.input {
-  display: flex;
-  flex-direction: column;
-}
+/*.input {*/
+/*  display: flex;*/
+/*}*/
 
 input, button {
-  padding: 10px 8px;
-  margin: 20px;
+  padding: 20px 20px;
+  margin: 30px;
   font-size: 20px;
+  border-radius: 15px;
 
 }
 
@@ -145,33 +148,39 @@ input, button {
   flex-direction: column;
   align-items: center;
 
+
 }
 
 button {
-  cursor: pointer;
-  background-color: white;
-  border: 1px solid cadetblue;
-  /*transition: 0.3s ease-in-out;*/
-  margin-bottom: 20px;
+  cursor: grab;
+  background-color: #c2c2c2;
+  border: 3px solid cadetblue;
+
+  margin-bottom: 70px;
   margin-top: 40px;
-}
-
-.output-cipher,.output-text {
-  outline: none;
-  opacity: 0;
 
 }
+
+/*.output-code,.output-text {*/
+/*  outline: none;*/
+/*  opacity: 0;*/
+
+/*}*/
 
 button:hover {
-  background-color: lightblue;
+  background-color: #b6daef;
+
 }
 
 #counter{
   width: 20%;
+  margin-top: 100px;
+
 }
 
 h1{
   text-align: center;
+  font-family: "Arial Black";
 }
 
 

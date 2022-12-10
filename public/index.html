@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>icon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Vue project</title>
+    <title>Ceaser Code</title>
 </head>
 <body>
 <div id="app"></div>
@@ -18,7 +18,7 @@
         $('.code').click(function ()
         {
             if ($('.text_in').val() !== ''){
-                const div = $(".code_out");
+                const div = $(".output-code");
                 div.animate({opacity: '0', }, "fast");
                 div.animate({opacity: '1',}, "slow");
             }
@@ -26,14 +26,14 @@
         $('.deCode').click(function ()
         {
             if ($('.code_in').val() !== ''){
-                const div = $(".text_out");
+                const div = $(".output-text");
                 div.animate({opacity: '0', }, "fast");
                 div.animate({opacity: '1',}, "slow");
             }
         })
         $('#counter').change(function ()
         {
-            $(".code_out,.text_out").animate({opacity: '0'}, 'fast')
+            $(".output-code,.output-text").animate({opacity: '0'}, 'fast')
         })
     })
 </script>
